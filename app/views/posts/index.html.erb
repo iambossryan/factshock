@@ -1,24 +1,92 @@
+<div style="text-align:center">
+<span style="text-align:center">Want to add post? <button type="button" class="btn btn-primary"><%= link_to 'Post Now', new_post_path %></button></span>
 
-<span style="float:left">Want to add post? <button type="button" class="btn btn-primary"><%= link_to 'Post Now', new_post_path %></button></span>
+<%if params[:user] != 'user'%>
+<div class="btn-group" style="float:left">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+    Sort by <span class="caret"></span>
+  </button>
+
+  <ul class="dropdown-menu" role="menu">
+    <li><%= link_to 'Newest', posts_path(sort: 'newest') %></li>
+    <li><%= link_to 'Oldest', posts_path(sort: 'oldest') %></li>
+  </ul>
+</div>
+<%end%>
+
 <br>
 <hr>
+<%if user_signed_in?%>
+            <%if current_user.email != "santiagoryanf@gmail.com" %>
+                <% @posts.order("id desc").each do |post| %>
+                  <h2><%= post.title %></h2>
+                  <%=image_tag post.picture_url, :width => '80%' if post.picture.present? %>
+                    <h3 style="color:#c00"><%= post.body %></h3>
+                  <%if post.user.email == current_user.email %>
+                    <p>Posted by:&nbsp;<strong><%= post.user.email %></strong></p>
+                  <%else%>
+                    <p>Posted by:&nbsp;<%= post.user.email %></p>
+                  <%end%>
+                    <p>Comment(s):&nbsp;<strong style:"color:#339966"><%= post.comments.count %></strong></p>
+                    <button type="button" class="btn btn-success"><%= link_to 'Comment', post %></button>
+                    <%if post.user.email == current_user.email %>
+                    <button type="button" class="btn btn-info"><%= link_to 'Edit Post', edit_post_path(post) %></button>
+                    <button type="button" class="btn btn-danger"><%= link_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
+                    <br>
+                    <% end %>
+                    <hr>
+                <% end %>
 
+                <%= paginate @posts %>
 
-    <% @posts.order("rating").each do |post| %>
-        <h2><%= post.title %></h2>
-        <h3 style="color:#c00"><%= post.body %></h3>
-        Category:
-        <h4 style="color:#396;display:inline"><%= post.category.name %></h4><br>
-        <p>Posted by:&nbsp;<%= post.user.email %></p>
-        <button type="button" class="btn btn-success"><%= link_to 'Comment', post %></button>
+                
+            <%else%>
 
-        <%if post.user.email == current_user.email %>
-        <button type="button" class="btn btn-info"><%= link_to 'Edit Post', edit_post_path(post) %></button>
-        <button type="button" class="btn btn-danger"><%= link_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
-        <br>
-        <% end %>
-        <hr>
-    <% end %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                <th>Thumbnail</th>
+                  <th>Title/About</th>
+                  <th>Body</th>
+                  <th>Post by</th>
+                  <th>Comment(s)</th>
+                  <th></th>
+                </tr>
+              </thead>
 
-    <%= paginate @posts %>
+              <tbody>
+                
+                       <% @posts.order("id desc").each do |post| %>
+                 <tr>
+                  <td><%=image_tag post.picture_url, :width => '80px' , :height => '80px' if post.picture.present? %></td>
+                   <td><%= post.title %></td>
+                    <td style="color:#c00"><%= post.body %></td>
+                  
+                    <td><%= post.user.email %></td>
+                    <td><strong style:"color:#339966"><%= post.comments.count %></strong></td>
+                    <td><button type="button" class="btn btn-success"><%= link_to 'Show', post %></button>
+                    <button type="button" class="btn btn-info"><%= link_to 'Edit Post', edit_post_path(post) %></button>
+                    <button type="button" class="btn btn-danger"><%= link_to 'Delete Post', post, method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
+                    </tr> 
+                <% end %>
+                </tbody>
+            </table>
+             <%= paginate @posts %>
+                <% end %>
+
+<%else%>
+<% @posts.order("id desc").each do |post| %>
+                  <h2><%= post.title %></h2>
+                  <%=image_tag post.picture_url, :width => '80%' if post.picture.present? %>
+                    <h3 style="color:#c00"><%= post.body %></h3>
+                    <p>Posted by:&nbsp;<%= post.user.email %></p>
+                    <p>Comment(s):&nbsp;<strong style:"color:#339966"><%= post.comments.count %></strong></p>
+                    <button type="button" class="btn btn-success"><%= link_to 'Comment', post %></button>
+                    <hr>
+                <% end %>
+
+                <%= paginate @posts %>
+<%end%>
+
+</div>
 

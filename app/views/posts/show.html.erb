@@ -1,21 +1,22 @@
+<div style="text-align:center">
 <p id="notice"><%= notice %></p>
 
 <h2>
   <%= @post.title %>
 </h2>
-
+<%=image_tag(@post.picture_url, :width => "80%") if @post.picture.present? %>
 <h3 style="color:#c00"><%= @post.body %></h3>
-        Category:
-        <h4 style="color:#396;display:inline"><%= @post.category.name %></h4><br>
+        <br>
 
-        
-        
+  <%if current_user.email == "santiagoryanf@gmail.com" %>      
+   
   <%if @post.user.email == current_user.email %>
         <button type="button" class="btn btn-info"><%= link_to 'Edit Post', edit_post_path(@post) %></button>
         <button type="button" class="btn btn-danger"><%= link_to 'Delete Post', @post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
         <br>
         <% end %>
-
+<div class="container">
+  <div class="container-body">
   <h3>Post a comment:</h3>
 <%= form_for([@post, Comment.new]) do |f| %>
   
@@ -27,19 +28,50 @@
     <%= f.submit  %>
   </p>
 <% end %>
-
+</div></div>
 
   <h3>Comments</h3>
   
 <% @post.comments.each do |comment| %>
 
-<%= comment.user.email %>
-  
+<strong><%= comment.user.email %></strong> 
  <div class="well well-lg"><%= comment.body %></div>
-
-
 <% end %>
 
+
+<% else %>
+        <button type="button" class="btn btn-info"><%= link_to 'Edit Post', edit_post_path(@post) %></button>
+        <button type="button" class="btn btn-danger"><%= link_to 'Delete Post', @post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
+        <br>
+<div class="container">
+  <div class="container-body">
+  <h3>Post a comment:</h3>
+<%= form_for([@post, Comment.new]) do |f| %>
+<div class="form-inputs form-signin">
+    <%= f.hidden_field :post_id , :value => @post  %>
+    <%= f.hidden_field :user_id , :value => current_user.id %>
+  
+    <p><%= f.text_area :body , :class => 'form-control' %></p>
+
+</div>
+  <p>
+    <%= f.submit 'Post Comment', :class => 'btn btn-success'  %>
+  </p>
+<% end %>
+</div></div>
+
+<div class="container">
+  <div class="container-body">
+  <h3>Comments</h3>
+  
+<% @post.comments.order("created_at desc").each do |comment| %>
+
+<strong><%= comment.user.email %></strong> 
+ <div class="well well-lg"><%= comment.body %></div>
+<% end %>
+</div></div>
+<% end %>
+</div>
 
 
 

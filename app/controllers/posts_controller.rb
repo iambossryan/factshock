@@ -1,11 +1,16 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
- before_filter :authenticate_user!
+ before_filter :authenticate_user! ,:except => [:index]
   # GET /posts
   # GET /posts.json
   def index
+    if params[:sort].present?
+      @posts = Post.order('created_at desc') if params[:sort] == 'newest'
+      @posts = Post.order('created_at asc') if params[:sort] == 'oldest'
+      @posts = @posts.page(params[:page]).per(5)
+    else
     @posts = Post.all.page(params[:page]).per(5)
-
+    end
   end
 
   # GET /posts/1
@@ -70,6 +75,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :body, :category_id, :user_id, :rating)
+      params.require(:post).permit(:title, :body, :category_id, :user_id, :rating, :picture)
     end
 end

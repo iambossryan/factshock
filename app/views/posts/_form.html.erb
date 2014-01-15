@@ -1,15 +1,21 @@
+<div class="container">
+  <div class="container-body">
 <%= simple_form_for(@post) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
+  <div class="form-inputs form-signin">
     <%= f.input :user_id, :as => :hidden, :input_html => { :value => current_user.id } %>
-    <%= f.input :title %>
-    <%= f.association :category%>
-    <%= f.input :body %>
+    <%= f.input :title, input_html: { class: 'form-control' }  %>
+    <%= f.input :category , :as => :hidden, :input_html => { :value => '0' }  %>
+    <%= f.input :body,input_html: { class: 'form-control' }  %>
+    <strong>Add image to your post(optional)</strong>
+    <%= f.file_field :picture %>
     <%= f.input :rating , :as => :hidden, :input_html => { :value => '0' }  %>
   </div>
-
+<br>
   <div class="form-actions">
     <%= f.button :submit %>
   </div>
 <% end %>
+</div>
+</div>

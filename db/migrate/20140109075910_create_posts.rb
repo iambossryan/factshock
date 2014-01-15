@@ -6,7 +6,7 @@ class CreatePosts < ActiveRecord::Migration
       t.references :category, index: true
       t.references :user, index: true
       t.integer :rating
-
+      t.string :picture
       t.timestamps
     end
   end

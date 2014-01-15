@@ -50,3 +50,11 @@ gem 'twitter-bootstrap-rails'
 gem 'simple_form'
 #gem 'haml'
 gem 'kaminari'
+gem 'carrierwave'
+gem 'gravtastic'
+gem 'mail'
+#gem 'sunspot_rails'
+gem 'progress_bar'
+#gem 'sunspot_solr'
+
+
