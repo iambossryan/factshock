@@ -15,8 +15,7 @@
         <button type="button" class="btn btn-danger"><%= link_to 'Delete Post', @post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
         <br>
         <% end %>
-<div class="container">
-  <div class="container-body">
+
   <h3>Post a comment:</h3>
 <%= form_for([@post, Comment.new]) do |f| %>
   
@@ -28,7 +27,7 @@
     <%= f.submit  %>
   </p>
 <% end %>
-</div></div>
+
 
   <h3>Comments</h3>
   
@@ -43,8 +42,7 @@
         <button type="button" class="btn btn-info"><%= link_to 'Edit Post', edit_post_path(@post) %></button>
         <button type="button" class="btn btn-danger"><%= link_to 'Delete Post', @post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
         <br>
-<div class="container">
-  <div class="container-body">
+
   <h3>Post a comment:</h3>
 <%= form_for([@post, Comment.new]) do |f| %>
 <div class="form-inputs form-signin">
@@ -58,10 +56,9 @@
     <%= f.submit 'Post Comment', :class => 'btn btn-success'  %>
   </p>
 <% end %>
-</div></div>
 
-<div class="container">
-  <div class="container-body">
+
+
   <h3>Comments</h3>
   
 <% @post.comments.order("created_at desc").each do |comment| %>
@@ -69,7 +66,7 @@
 <strong><%= comment.user.email %></strong> 
  <div class="well well-lg"><%= comment.body %></div>
 <% end %>
-</div></div>
+
 <% end %>
 </div>
 
