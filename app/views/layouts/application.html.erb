@@ -39,53 +39,68 @@
   </head>
   <body>
 
-<div class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    <a href="/posts" class="navbar-brand"><span>FactShock</span></a>
-    
-    <button class = "navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    </button>
-    <div class = "collapse navbar-collapse navHeaderCollapse">
-    <ul class="nav navbar-nav navbar-right">
-      <% if user_signed_in? %>
+<div class="navbar navbar-inverse navbar-fluid-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/posts"><%= image_tag "logo.svg" , style:"width:25px;height:30px"%></a>
+          <div class="container-fluid nav-collapse">
+            <ul class="nav">
+              <% if user_signed_in? %>
                <li><%= link_to "Home", "/posts"  %></li>
             <li><%= link_to "My Posts", posts_user_path(current_user,user: 'user') %></li>
             <li><%= link_to "Post a Fact", new_post_path  %></li>
             <li><%= link_to "Log out", destroy_user_session_path, :method => :delete %></li>
         <%else%>
         <li><%= link_to "Log In", new_user_session_path  %></li>
-        <%end %>
-    </ul>
+        <%end %></ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
     </div>
-  
-  </div>
-</div>
-
-
-
 
 
     
 
-        <div class="span12" style="margin-top:80px;margin-left:auto;margin-right:auto">
+        <div class="span8" style="margin-top:80px;margin-left:auto;margin-right:auto">
           <%= yield %>
         </div>
       </div><!--/row-->
 
 
 
-<footer style="text-align:center">
- <% if user_signed_in? %>
+<div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span4">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <% if user_signed_in? %>
               Logged in as: <strong><%= current_user.email %><br>
               </strong>
                 <strong><%= link_to 'Edit Account', edit_user_registration_path %>&nbsp;&nbsp;|</strong>
                <strong> <%= link_to "Log out", destroy_user_session_path, :method => :delete %></strong>
               <% end %>
-    <p>This site is developed by: Ryan F. Santiago and Jerimiah Sebastian V. Samatra during their days at ProudCloud Inc.</p>
-</footer>
+              <li class="nav-header">About</li>
+              <li>Site Proudly Developed by:</li>
+              <li><strong>Ryan F. Santiago</strong>
+                <a href="https://www.facebook.com/ryan.f.santiago" target="_blank"><%= image_tag "fb.svg" , style:"width:10%;height:10%"%>&nbsp;ryan.f.santiago</a>
+                <a href="https://twitter.com/ryanfsantiago" target="_blank"><%= image_tag "twitter.svg" , style:"width:10%;height:10%"%>&nbsp;ryanfsantiago</a>
+                <a href="https://github.com/iambossryan" target="_blank"><%= image_tag "github.svg" , style:"width:10%;height:10%"%>&nbsp;iambossryan</a></li>
+              <li><strong>Jerimiah Sebastian V. Samatra</strong>
+                  <a href="https://www.facebook.com/jsamatraLoveMe" target="_blank"><%= image_tag "fb.svg" , style:"width:10%;height:10%"%>&nbsp;jsamatraLoveMe</a>
+                  <a href="https://github.com/jeremy2014" target="_blank"><%= image_tag "github.svg" , style:"width:10%;height:10%"%>&nbsp;jeremy2014</a>
+              </li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+     
+
+    </div> <!-- /container -->
+</div>
 
   </body>
 </html>
