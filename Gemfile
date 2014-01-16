@@ -59,6 +59,6 @@ gem 'progress_bar'
 #gem 'sunspot_solr'
 gem 'rails_12factor'
 gem 'cancan'
-
+gem 'thumbs_up'
 
 

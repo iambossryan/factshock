@@ -1,45 +1,36 @@
-<div style="text-align:center">
-<p id="notice"><%= notice %></p>
+
+
 
 <h2>
   <%= @post.title %>
 </h2>
 <%=image_tag(@post.picture_url, :width => "80%") if @post.picture.present? %>
 <h3 style="color:#c00"><%= @post.body %></h3>
-        <br>
-
-  <%if current_user.email == "santiagoryanf@gmail.com" %>      
+        
+ Vote(s):&nbsp;<strong style:"color:#339966"> <%= @post.likes.count %></strong>
+<br><br>
+  <%if user_signed_in? %>      
    
-  <%if @post.user.email == current_user.email %>
+    
+    <%if @post.user.email == current_user.email || current_user.email=="santiagoryanf@gmail.com"%>
+      
+<%if @post.likes.exists?(:user_id => current_user.id , :post_id => @post.id)%>
+    <button class="btn btn-primary" disabled>Voted</button><br><br>
+<% else %>
+
+    <%= form_for([@post, Like.new]) do |f| %>
+    <%= f.hidden_field :post_id , :value => @post  %>
+    <%= f.hidden_field :user_id , :value => current_user.id %>
+    <%= f.hidden_field :number , :value => '1' %>
+    <%= f.submit 'Vote', :class => 'btn btn-primary'  %>
+    <% end %>
+<% end %>
         <button type="button" class="btn btn-info"><%= link_to 'Edit Post', edit_post_path(@post) %></button>
         <button type="button" class="btn btn-danger"><%= link_to 'Delete Post', @post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
         <br>
-    <% end %>
-
-  <h3>Post a comment:</h3>
-<%= form_for([@post, Comment.new]) do |f| %>
-  
-    <%= f.hidden_field :post_id , :value => @post  %>
-    <%= f.hidden_field :user_id , :value => current_user.id %>
-  
-    <p><%= f.text_area :body %></p>
-  <p>
-    <%= f.submit  %>
-  </p>
-<% end %>
-
-
-  <h3>Comments</h3>
-  
-<% @post.comments.each do |comment| %>
-
-<strong><%= comment.user.email %></strong> 
- <div class="well well-lg"><%= comment.body %></div>
-<% end %>
-
-
-<% else %>
-       
+    <%end%>
+<div class="container">
+  <div class="container-body">
   <h3>Post a comment:</h3>
 <%= form_for([@post, Comment.new]) do |f| %>
 <div class="form-inputs form-signin">
@@ -53,9 +44,10 @@
     <%= f.submit 'Post Comment', :class => 'btn btn-success'  %>
   </p>
 <% end %>
+</div></div>
 
-
-
+<div class="container">
+  <div class="container-body">
   <h3>Comments</h3>
   
 <% @post.comments.order("created_at desc").each do |comment| %>
@@ -63,9 +55,23 @@
 <strong><%= comment.user.email %></strong> 
  <div class="well well-lg"><%= comment.body %></div>
 <% end %>
+</div></div>
+<%else%>
+<h3>Post a comment:</h3>
+<p>Please log in to post a comment.</p>
+<div class="container">
+  <div class="container-body">
+  <h3>Comments</h3>
+  
+<% @post.comments.order("created_at desc").each do |comment| %>
+
+<strong><%= comment.user.email %></strong> 
+ <div class="well well-lg"><%= comment.body %></div>
+<% end %>
+</div></div>
 
 <% end %>
-</div>
+
 
 
 
