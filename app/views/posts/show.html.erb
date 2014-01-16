@@ -39,9 +39,7 @@
 
 
 <% else %>
-        <button type="button" class="btn btn-info"><%= link_to 'Edit Post', edit_post_path(@post) %></button>
-        <button type="button" class="btn btn-danger"><%= link_to 'Delete Post', @post, method: :delete, data: { confirm: 'Are you sure?' } %></button>
-        <br>
+       
 
   <h3>Post a comment:</h3>
 <%= form_for([@post, Comment.new]) do |f| %>
