@@ -58,7 +58,7 @@ gem 'mail'
 gem 'progress_bar'
 #gem 'sunspot_solr'
 gem 'rails_12factor'
-
+gem 'cancan'
 
 
 
